@@ -1,0 +1,85 @@
+{
+	"$schema": "node_modules/wrangler/config-schema.json",
+	"name": "cf-no-cap-prices",
+	"main": ".open-next/worker.js",
+	"compatibility_date": "2025-09-27",
+	"compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
+	"assets": {
+		"binding": "ASSETS",
+		"directory": ".open-next/assets"
+	},
+	"images": {
+		// see https://opennext.js.org/cloudflare/howtos/image
+		"binding": "IMAGES"
+	},
+	"services": [
+		{
+			// Self-reference binding — service name must match "name" above
+			// see https://opennext.js.org/cloudflare/caching
+			"binding": "WORKER_SELF_REFERENCE",
+			"service": "cf-no-cap-prices"
+		}
+	],
+	"observability": {
+		"enabled": true
+	},
+	/**
+	 * KV — price cache (1h TTL) + form drafts (24h TTL)
+	 * Create: wrangler kv namespace create PRICES_KV
+	 */
+	"kv_namespaces": [
+		{
+			"binding": "PRICES_KV",
+			"id": "TO_BE_CREATED"
+		}
+	],
+	/**
+	 * D1 — price history + price alerts
+	 * Create: wrangler d1 create cf-nocap-prices
+	 */
+	"d1_databases": [
+		{
+			"binding": "DB",
+			"database_name": "cf-nocap-prices",
+			"database_id": "TO_BE_CREATED"
+		}
+	],
+	/**
+	 * Queues — async scrape jobs
+	 * Create: wrangler queues create cf-nocap-scrape
+	 */
+	"queues": {
+		"producers": [
+			{
+				"binding": "SCRAPE_QUEUE",
+				"queue": "cf-nocap-scrape"
+			}
+		]
+	},
+	/**
+	 * Durable Objects — per-product visitor heartbeat counter
+	 * Defined in workers/counter
+	 */
+	"durable_objects": {
+		"bindings": [
+			{
+				"name": "VISITOR_COUNTER",
+				"class_name": "VisitorCounter",
+				"script_name": "cf-nocap-counter"
+			}
+		]
+	},
+	/**
+	 * Workers AI — calls Claude via AI Gateway for verdict streaming
+	 */
+	"ai": {
+		"binding": "AI"
+	}
+	/**
+	 * Secrets — set via: wrangler secret put KEY
+	 * - ANTHROPIC_API_KEY
+	 * - CF_ACCOUNT_ID
+	 * - CF_BR_API_TOKEN   (Browser Rendering REST API token)
+	 * - AI_GATEWAY_SLUG
+	 */
+}
