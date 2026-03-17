@@ -1,5 +1,9 @@
 import type { Metadata } from "next"
 import "./globals.css"
+import { Geist } from "next/font/google";
+import { cn } from "@/lib/utils";
+
+const geist = Geist({subsets:['latin'],variable:'--font-sans'});
 
 export const metadata: Metadata = {
   title: "NoCapPrices — Is it a good deal?",
@@ -8,7 +12,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="es" className="dark">
+    <html lang="es" className={cn("dark", "font-sans", geist.variable)}>
       <head>
         <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
       </head>
