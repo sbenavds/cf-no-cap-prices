@@ -156,17 +156,12 @@
 }
 
 @layer components {
-  /* The signature label — "AGREGAR PRODUCTO", "AHORRO ESTIMADO" */
+  /* The signature label — "COMPETITOR PRICES", "AI ANALYSIS" */
   .label-caps {
     @apply text-xs font-medium tracking-widest uppercase text-muted-foreground;
   }
 
-  /* Borderless surface card */
-  .surface {
-    @apply bg-card rounded-xl;
-  }
-
-  /* Verdict stamp — the emotional payoff */
+  /* Verdict stamp text colors — the emotional payoff */
   .verdict-bargain { @apply text-[var(--verdict-bargain)]; }
   .verdict-fair    { @apply text-[var(--verdict-fair)]; }
   .verdict-pricey  { @apply text-[var(--verdict-pricey)]; }
