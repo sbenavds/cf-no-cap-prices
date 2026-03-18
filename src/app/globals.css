@@ -54,43 +54,59 @@
 }
 
 :root {
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --radius: 0.625rem;
+  /* Canvas — receipt white */
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.13 0 0);
 
-  --verdict-bargain: oklch(0.723 0.219 142.495);
-  --verdict-fair: oklch(0.795 0.184 86.047);
-  --verdict-pricey: oklch(0.705 0.213 47.604);
-  --verdict-scam: oklch(0.637 0.237 25.331);
+  /* Surfaces — same neutral hue, shift lightness only. You feel it, don't see it. */
+  --card: oklch(0.962 0 0);
+  --card-foreground: oklch(0.13 0 0);
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
+  --popover-foreground: oklch(0.13 0 0);
+
+  /* Controls */
+  --primary: oklch(0.13 0 0);
+  --primary-foreground: oklch(1 0 0);
+  --secondary: oklch(0.962 0 0);
+  --secondary-foreground: oklch(0.13 0 0);
+
+  /* Muted — faded ink for labels, metadata, placeholders */
+  --muted: oklch(0.962 0 0);
+  --muted-foreground: oklch(0.58 0 0);
+
+  --accent: oklch(0.962 0 0);
+  --accent-foreground: oklch(0.13 0 0);
   --destructive: oklch(0.577 0.245 27.325);
+
+  /* Borders invisible by default — elevation via surface color only */
+  --border: oklch(0.92 0 0 / 0%);
+  /* Inputs: same shelf-gray fill as cards, no border */
+  --input: oklch(0.962 0 0);
+  /* Focus ring: subtle ink */
+  --ring: oklch(0.13 0 0 / 12%);
+
+  /* Shape — generous radius, like the pill inputs in the reference */
+  --radius: 0.75rem;
+
+  /* Verdict stamp colors — saturated but not neon, like a price tag sticker */
+  --verdict-bargain: oklch(0.52 0.15 150);
+  --verdict-fair: oklch(0.62 0.15 86);
+  --verdict-pricey: oklch(0.62 0.19 47);
+  --verdict-scam: oklch(0.57 0.24 27);
+
   --chart-1: oklch(0.809 0.105 251.813);
   --chart-2: oklch(0.623 0.214 259.815);
   --chart-3: oklch(0.546 0.245 262.881);
   --chart-4: oklch(0.488 0.243 264.376);
   --chart-5: oklch(0.424 0.199 265.638);
   --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
+  --sidebar-foreground: oklch(0.13 0 0);
+  --sidebar-primary: oklch(0.13 0 0);
+  --sidebar-primary-foreground: oklch(1 0 0);
+  --sidebar-accent: oklch(0.962 0 0);
+  --sidebar-accent-foreground: oklch(0.13 0 0);
+  --sidebar-border: oklch(0.92 0 0 / 0%);
+  --sidebar-ring: oklch(0.13 0 0 / 12%);
 }
 
 .dark {
@@ -132,9 +148,27 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground antialiased;
   }
   html {
     @apply font-sans;
   }
+}
+
+@layer components {
+  /* The signature label — "AGREGAR PRODUCTO", "AHORRO ESTIMADO" */
+  .label-caps {
+    @apply text-xs font-medium tracking-widest uppercase text-muted-foreground;
+  }
+
+  /* Borderless surface card */
+  .surface {
+    @apply bg-card rounded-xl;
+  }
+
+  /* Verdict stamp — the emotional payoff */
+  .verdict-bargain { @apply text-[var(--verdict-bargain)]; }
+  .verdict-fair    { @apply text-[var(--verdict-fair)]; }
+  .verdict-pricey  { @apply text-[var(--verdict-pricey)]; }
+  .verdict-scam    { @apply text-[var(--verdict-scam)]; }
 }
