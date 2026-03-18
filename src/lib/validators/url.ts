@@ -2,6 +2,18 @@ const PRIVATE_IP = /^(127\.|10\.|192\.168\.|172\.(1[6-9]|2\d|3[01])\.|::1|localh
 
 const BLOCKED_SCHEMES = new Set(["file:", "ftp:", "javascript:", "data:"])
 
+// Known phishing / typosquat domains targeting major retailers
+const PHISHING_BLOCKLIST = new Set([
+  "arnazon.com",
+  "amazon-deals.net",
+  "ebay-support.com",
+  "walmart-offers.net",
+  "bestbuy-deals.com",
+  "paypa1.com",
+  "app1e.com",
+  "rn.com", // rn looks like m
+])
+
 export type UrlValidationResult =
   | { ok: true; url: URL }
   | { ok: false; error: string }
@@ -28,6 +40,11 @@ export function validateProductUrl(raw: string): UrlValidationResult {
 
   if (!url.hostname.includes(".")) {
     return { ok: false, error: "Invalid hostname." }
+  }
+
+  const hostname = url.hostname.toLowerCase()
+  if (PHISHING_BLOCKLIST.has(hostname)) {
+    return { ok: false, error: "This domain is blocked." }
   }
 
   return { ok: true, url }
