@@ -17,6 +17,11 @@ export interface DealResult {
   scrapedAt: number
 }
 
+export type ActionResult =
+  | { status: "cached"; deal: DealResult }
+  | { status: "queued"; productUrl: string }
+  | { status: "error"; message: string }
+
 export interface PriceAlert {
   id: string
   productUrl: string

@@ -19,7 +19,7 @@ export interface Env {
   AI: Ai
 
   // Secrets (wrangler secret put)
-  ANTHROPIC_API_KEY: string
+  GROQ_API_KEY: string
   CF_ACCOUNT_ID: string
   CF_BR_API_TOKEN: string
   AI_GATEWAY_SLUG: string
