@@ -4,7 +4,8 @@ import { DealForm } from "./components/deal-form"
 import { DealCard } from "./components/deal-card"
 import { PriceComparison } from "./components/price-comparison"
 import { DealSkeleton } from "./components/deal-skeleton"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent } from "@/components/ui/card"
+import { AiVerdict } from "./components/ai-verdict"
 import { getCachedDeal } from "@/lib/cf/kv"
 import type { DealResult } from "@/types/deal"
 
@@ -28,20 +29,7 @@ async function DealSection({ dealPromise }: { dealPromise: Promise<DealResult | 
       </section>
 
       <section aria-label="AI analysis">
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2 text-sm font-medium text-muted-foreground">
-              <span aria-hidden>☆</span>
-              AI analysis
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            {/* Streaming verdict — wired in issue #21 */}
-            <p className="text-sm leading-relaxed text-muted-foreground">
-              Analysis will appear here once the scrape completes.
-            </p>
-          </CardContent>
-        </Card>
+        <AiVerdict deal={deal} />
       </section>
     </>
   )
