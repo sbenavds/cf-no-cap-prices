@@ -86,7 +86,7 @@
   --ring: oklch(0.13 0 0 / 12%);
 
   /* Shape — generous radius, like the pill inputs in the reference */
-  --radius: 0.75rem;
+  --radius: 0.5rem;
 
   /* Verdict stamp colors — saturated but not neon, like a price tag sticker */
   --verdict-bargain: oklch(0.52 0.15 150);
