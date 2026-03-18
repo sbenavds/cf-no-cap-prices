@@ -19,6 +19,11 @@ const badgeVariants = cva(
         ghost:
           "hover:bg-muted hover:text-muted-foreground dark:hover:bg-muted/50",
         link: "text-primary underline-offset-4 hover:underline",
+        // Verdict variants — the emotional payoff of the app
+        bargain:  "bg-verdict-bargain/10 text-verdict-bargain",
+        fair:     "bg-verdict-fair/10 text-verdict-fair",
+        pricey:   "bg-verdict-pricey/10 text-verdict-pricey",
+        scam:     "bg-verdict-scam/10 text-verdict-scam",
       },
     },
     defaultVariants: {

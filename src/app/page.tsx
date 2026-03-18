@@ -3,6 +3,9 @@ import { DealForm } from "./components/deal-form"
 import { VerdictBadge } from "@/components/deal-card/verdict-badge"
 import { CompetitorRow } from "@/components/price-comparison/competitor-row"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Input } from "@/components/ui/input"
+import { Checkbox } from "@/components/ui/checkbox"
+import { Label } from "@/components/ui/label"
 import type { DealResult } from "@/types/deal"
 
 // Static mock — replaced by server data in issue #15
@@ -75,25 +78,21 @@ export default function HomePage() {
               {/* Alert row — nested card inside price banner */}
               <Card className="bg-background py-3">
                 <CardContent className="flex items-center gap-3">
-                  <input
-                    type="checkbox"
-                    id="alert-check"
-                    className="h-4 w-4 rounded accent-foreground cursor-pointer"
-                  />
-                  <label
+                  <Checkbox id="alert-check" />
+                  <Label
                     htmlFor="alert-check"
-                    className="flex items-center gap-2 text-sm cursor-pointer select-none"
+                    className="flex items-center gap-2 text-sm cursor-pointer"
                   >
                     Alert me below
                     <span className="text-muted-foreground">$</span>
-                    <input
+                    <Input
                       type="number"
                       name="threshold"
                       defaultValue={Math.round(cheapest - 1)}
                       min="1"
-                      className="w-16 bg-transparent text-sm font-medium tabular-nums outline-none border-b border-muted-foreground/30 focus:border-foreground transition-colors"
+                      className="h-7 w-16 bg-transparent px-1 text-sm font-medium tabular-nums shadow-none focus-visible:ring-0 border-0 border-b border-muted-foreground/30 rounded-none focus-visible:border-foreground"
                     />
-                  </label>
+                  </Label>
                   <span className="ml-auto text-xs text-muted-foreground tabular-nums">
                     <span className="font-medium text-foreground">430</span> watching
                   </span>
