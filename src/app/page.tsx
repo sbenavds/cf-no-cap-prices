@@ -28,7 +28,7 @@ async function DealSection({
   return (
     <>
       <section aria-label="Deal result">
-        <DealCard deal={deal} />
+        <DealCard deal={deal} productUrl={productUrl} />
       </section>
 
       <section aria-label="Competitor prices">
