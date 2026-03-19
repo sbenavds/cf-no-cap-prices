@@ -1,20 +1,27 @@
-import { Suspense } from "react"
-import { getCloudflareContext } from "@opennextjs/cloudflare"
-import { DealForm } from "./components/deal-form"
-import { DealCard } from "./components/deal-card"
-import { PriceComparison } from "./components/price-comparison"
-import { DealSkeleton } from "./components/deal-skeleton"
 import { Card, CardContent } from "@/components/ui/card"
-import { AiVerdict } from "./components/ai-verdict"
 import { getCachedDeal } from "@/lib/cf/kv"
 import type { DealResult } from "@/types/deal"
+import { getCloudflareContext } from "@opennextjs/cloudflare"
+import { Suspense } from "react"
+import { AiVerdict } from "./components/ai-verdict"
+import { DealCard } from "./components/deal-card"
+import { DealForm } from "./components/deal-form"
+import { DealSkeleton } from "./components/deal-skeleton"
+import { PriceComparison } from "./components/price-comparison"
+import { VisitorCounter } from "./components/visitor-counter"
 
 interface PageProps {
   searchParams: Promise<{ url?: string }>
 }
 
 // Async child — awaits the deal promise inside Suspense so the page streams
-async function DealSection({ dealPromise }: { dealPromise: Promise<DealResult | null> }) {
+async function DealSection({
+  dealPromise,
+  productUrl,
+}: {
+  dealPromise: Promise<DealResult | null>
+  productUrl: string
+}) {
   const deal = await dealPromise
   if (!deal) return null
 
@@ -31,6 +38,8 @@ async function DealSection({ dealPromise }: { dealPromise: Promise<DealResult | 
       <section aria-label="AI analysis">
         <AiVerdict deal={deal} />
       </section>
+
+      <VisitorCounter productUrl={productUrl} />
     </>
   )
 }
@@ -52,9 +61,7 @@ export default async function HomePage({ searchParams }: PageProps) {
           <span className="text-xs font-bold tracking-tight text-background">NC</span>
         </div>
         <span className="font-semibold tracking-tight">NoCapPrices</span>
-        <span className="rounded-md bg-muted px-2 py-0.5 text-xs text-muted-foreground">
-          beta
-        </span>
+        <span className="rounded-md bg-muted px-2 py-0.5 text-xs text-muted-foreground">beta</span>
       </header>
 
       <p className="text-sm text-muted-foreground -mt-2 mb-1">
@@ -73,7 +80,7 @@ export default async function HomePage({ searchParams }: PageProps) {
       {/* Result Zone — streams in behind Suspense */}
       {url && (
         <Suspense fallback={<DealSkeleton />}>
-          <DealSection dealPromise={dealPromise} />
+          <DealSection dealPromise={dealPromise} productUrl={url} />
         </Suspense>
       )}
     </main>
