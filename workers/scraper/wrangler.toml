@@ -1,0 +1,25 @@
+name = "cf-nocap-scraper"
+main = "index.ts"
+compatibility_date = "2025-09-27"
+compatibility_flags = ["nodejs_compat"]
+
+# Queue consumer — processes scrape jobs enqueued by the Pages app
+[[queues.consumers]]
+queue = "cf-nocap-scrape"
+max_batch_size = 1        # One job at a time — Browser Rendering is slow
+max_batch_timeout = 0
+max_retries = 3
+dead_letter_queue = "cf-nocap-scrape-dlq"
+
+[[kv_namespaces]]
+binding = "PRICES_KV"
+id = "6062cce504f14a4d9ffe6f745941d1e8"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "cf-nocap-prices"
+database_id = "c71e9b91-d831-45d0-9d67-500574dea746"
+
+# Secrets — set via: wrangler secret put KEY --config workers/scraper/wrangler.toml
+# - CF_ACCOUNT_ID
+# - CF_BR_API_TOKEN   (Cloudflare API token with Browser Rendering permission)

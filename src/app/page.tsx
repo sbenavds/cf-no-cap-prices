@@ -4,6 +4,7 @@ import type { DealResult } from "@/types/deal"
 import { getCloudflareContext } from "@opennextjs/cloudflare"
 import { Suspense } from "react"
 import { AiVerdict } from "./components/ai-verdict"
+import { AnalyzingState } from "./components/analyzing-state"
 import { DealCard } from "./components/deal-card"
 import { DealForm } from "./components/deal-form"
 import { DealSkeleton } from "./components/deal-skeleton"
@@ -11,10 +12,9 @@ import { PriceComparison } from "./components/price-comparison"
 import { VisitorCounter } from "./components/visitor-counter"
 
 interface PageProps {
-  searchParams: Promise<{ url?: string }>
+  searchParams: Promise<{ url?: string; error?: string }>
 }
 
-// Async child — awaits the deal promise inside Suspense so the page streams
 async function DealSection({
   dealPromise,
   productUrl,
@@ -23,7 +23,7 @@ async function DealSection({
   productUrl: string
 }) {
   const deal = await dealPromise
-  if (!deal) return null
+  if (!deal) return <AnalyzingState />
 
   return (
     <>
@@ -45,13 +45,14 @@ async function DealSection({
 }
 
 export default async function HomePage({ searchParams }: PageProps) {
-  const { url } = await searchParams
+  const { url, error } = await searchParams
   const { env } = getCloudflareContext()
 
-  // Create promise without awaiting — passed to DealSection inside Suspense
-  const dealPromise: Promise<DealResult | null> = url
-    ? getCachedDeal(env.PRICES_KV, url)
-    : Promise.resolve(null)
+  let dealPromise: Promise<DealResult | null> = Promise.resolve(null)
+
+  if (url) {
+    dealPromise = getCachedDeal(env.PRICES_KV, url)
+  }
 
   return (
     <main className="mx-auto flex min-h-screen max-w-xl flex-col gap-3 px-4 py-10">
@@ -72,12 +73,12 @@ export default async function HomePage({ searchParams }: PageProps) {
       <section aria-label="Deal validator">
         <Card className="py-2">
           <CardContent className="px-2">
-            <DealForm />
+            <DealForm error={error} />
           </CardContent>
         </Card>
       </section>
 
-      {/* Result Zone — streams in behind Suspense */}
+      {/* Result Zone — streams in behind Suspense; shows AnalyzingState when not yet in KV */}
       {url && (
         <Suspense fallback={<DealSkeleton />}>
           <DealSection dealPromise={dealPromise} productUrl={url} />

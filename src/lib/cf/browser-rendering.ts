@@ -20,8 +20,7 @@ export type BrowserRenderingResult =
 export async function scrapeProductPage(
   url: string,
   accountId: string,
-  apiToken: string,
-  anthropicApiKey: string
+  apiToken: string
 ): Promise<BrowserRenderingResult> {
   const controller = new AbortController()
   const timer = setTimeout(() => controller.abort(), TIMEOUT_MS)
@@ -38,19 +37,7 @@ export async function scrapeProductPage(
         url,
         prompt: EXTRACTION_PROMPT,
         response_format: PRICE_EXTRACTION_SCHEMA,
-        custom_ai: [
-          // Primary: claude-sonnet for accuracy
-          {
-            provider: "anthropic",
-            model: "claude-sonnet-4-5",
-            api_key: anthropicApiKey,
-          },
-          // Fallback: llama via Workers AI (no additional cost)
-          {
-            provider: "workers-ai",
-            model: "@cf/meta/llama-3.3-70b-instruct",
-          },
-        ],
+        // No custom_ai — uses Workers AI (@cf/llama-3.3-70b-instruct) by default
       }),
     })
 
@@ -60,8 +47,6 @@ export async function scrapeProductPage(
     }
 
     const json: unknown = await res.json()
-
-    // The /json endpoint wraps the result in { result: ... }
     const raw = (json as { result?: unknown })?.result ?? json
 
     if (!isPriceExtraction(raw)) {

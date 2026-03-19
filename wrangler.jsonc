@@ -51,19 +51,11 @@
 	 * Create: wrangler queues create cf-nocap-scrape
 	 */
 	"queues": {
+		// Producer only — consumer is workers/scraper (cf-nocap-scraper)
 		"producers": [
 			{
 				"binding": "SCRAPE_QUEUE",
 				"queue": "cf-nocap-scrape"
-			}
-		],
-		"consumers": [
-			{
-				"queue": "cf-nocap-scrape",
-				// Batch up to 10 jobs, retry failed messages up to 3 times
-				"max_batch_size": 10,
-				"max_retries": 3,
-				"dead_letter_queue": "cf-nocap-scrape-dlq"
 			}
 		]
 	},
