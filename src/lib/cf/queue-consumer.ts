@@ -1,6 +1,6 @@
 import { scrapeProductPage } from "@/lib/cf/browser-rendering"
-import { cacheDeal } from "@/lib/cf/kv"
 import { savePriceToD1 } from "@/lib/cf/d1"
+import { cacheDeal } from "@/lib/cf/kv"
 import type { PriceExtraction } from "@/lib/schemas/price-extraction"
 import type { DealResult, VerdictType } from "@/types/deal"
 
@@ -22,10 +22,7 @@ interface ScrapeEnv {
  * Called by the Cloudflare Queues consumer.
  * Scrapes 4 competitor stores in parallel, caches result in KV, persists to D1.
  */
-export async function processScrapeJob(
-  job: ScrapeJob,
-  env: ScrapeEnv
-): Promise<void> {
+export async function processScrapeJob(job: ScrapeJob, env: ScrapeEnv): Promise<void> {
   const { productUrl } = job
 
   // Scrape 4 stores in parallel
@@ -44,9 +41,7 @@ export async function processScrapeJob(
 
   const competitors = results
     .map((r, i) =>
-      r.status === "fulfilled" && r.value.ok
-        ? { ...r.value.data, storeDomain: stores[i] }
-        : null
+      r.status === "fulfilled" && r.value.ok ? { ...r.value.data, storeDomain: stores[i] } : null
     )
     .filter((r): r is PriceExtraction & { storeDomain: string } => r !== null)
 
@@ -54,7 +49,7 @@ export async function processScrapeJob(
 
   // Lowest price among competitors determines verdict
   const prices = competitors.map((c) => c.price)
-  const minPrice = Math.min(...prices)
+  const _minPrice = Math.min(...prices)
   const maxPrice = Math.max(...prices)
   const avgPrice = prices.reduce((a, b) => a + b, 0) / prices.length
 

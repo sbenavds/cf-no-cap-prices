@@ -16,7 +16,10 @@ Be direct, specific, and use the actual numbers. Never use filler phrases like "
  * Strips control characters and limits length.
  */
 function sanitize(value: string, maxLen = 200): string {
-  return value.replace(/[^\x20-\x7E]/g, "").slice(0, maxLen).trim()
+  return value
+    .replace(/[^\x20-\x7E]/g, "")
+    .slice(0, maxLen)
+    .trim()
 }
 
 export function buildVerdictPrompt(input: VerdictPromptInput): string {

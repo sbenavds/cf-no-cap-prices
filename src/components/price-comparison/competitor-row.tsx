@@ -25,9 +25,7 @@ export function CompetitorRow({ competitor, targetPrice }: CompetitorRowProps) {
         <span className="text-sm">{competitor.store}</span>
       </div>
       <div className="flex items-baseline gap-4">
-        <span className="text-sm font-medium tabular-nums">
-          ${competitor.price.toFixed(2)}
-        </span>
+        <span className="text-sm font-medium tabular-nums">${competitor.price.toFixed(2)}</span>
         {!isSame && (
           <span
             className={cn(

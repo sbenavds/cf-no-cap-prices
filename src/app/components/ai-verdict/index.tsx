@@ -1,9 +1,9 @@
 "use client"
 
-import { useEffect, useState } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Skeleton } from "@/components/ui/skeleton"
 import type { DealResult } from "@/types/deal"
+import { useEffect, useState } from "react"
 
 interface AiVerdictProps {
   deal: DealResult

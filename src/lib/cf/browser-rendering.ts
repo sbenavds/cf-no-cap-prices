@@ -1,7 +1,7 @@
 import {
   PRICE_EXTRACTION_SCHEMA,
-  isPriceExtraction,
   type PriceExtraction,
+  isPriceExtraction,
 } from "@/lib/schemas/price-extraction"
 
 const BR_API = "https://api.cloudflare.com/client/v4/accounts"

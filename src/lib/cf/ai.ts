@@ -1,7 +1,7 @@
 import {
-  buildVerdictPrompt,
   VERDICT_SYSTEM_PROMPT,
   type VerdictPromptInput,
+  buildVerdictPrompt,
 } from "@/lib/ai/prompts/verdict"
 
 const GROQ_MODEL = "llama-3.3-70b-versatile"

@@ -30,7 +30,7 @@ interface DealResult {
  *   3. Deactivate the alert (set active = 0).
  */
 export default {
-  async scheduled(_event: ScheduledEvent, env: Env, _ctx: ExecutionContext): Promise<void> {
+  async scheduled(_event: ScheduledController, env: Env, _ctx: ExecutionContext): Promise<void> {
     // Fetch all active alerts in one query
     const { results: alerts } = await env.DB.prepare(
       "SELECT id, product_url, threshold_price, email FROM alerts WHERE active = 1"

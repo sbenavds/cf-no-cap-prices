@@ -29,9 +29,9 @@ export function DealSkeleton() {
         </CardHeader>
         <CardContent>
           <div className="flex flex-col">
-            {[...Array(4)].map((_, i) => (
+            {["s1", "s2", "s3", "s4"].map((id) => (
               <div
-                key={i}
+                key={id}
                 className="flex items-center justify-between py-3 border-b border-muted last:border-0"
               >
                 <div className="flex items-center gap-3">

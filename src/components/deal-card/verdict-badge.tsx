@@ -5,10 +5,10 @@ const VERDICT: Record<
   VerdictType,
   { label: string; variant: "bargain" | "fair" | "pricey" | "scam" }
 > = {
-  bargain: { label: "BARGAIN",   variant: "bargain" },
-  fair:    { label: "FAIR PRICE", variant: "fair" },
-  pricey:  { label: "OVERPRICED", variant: "pricey" },
-  scam:    { label: "SCAM",       variant: "scam" },
+  bargain: { label: "BARGAIN", variant: "bargain" },
+  fair: { label: "FAIR PRICE", variant: "fair" },
+  pricey: { label: "OVERPRICED", variant: "pricey" },
+  scam: { label: "SCAM", variant: "scam" },
 }
 
 export function VerdictBadge({ verdict }: { verdict: VerdictType }) {

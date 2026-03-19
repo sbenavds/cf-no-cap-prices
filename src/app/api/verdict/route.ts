@@ -1,6 +1,6 @@
-import { getCloudflareContext } from "@opennextjs/cloudflare"
 import { streamVerdict } from "@/lib/cf/ai"
 import type { DealResult } from "@/types/deal"
+import { getCloudflareContext } from "@opennextjs/cloudflare"
 
 export const runtime = "edge"
 
@@ -13,6 +13,11 @@ export async function POST(req: Request): Promise<Response> {
   }
 
   const { env } = getCloudflareContext()
+  const { CF_ACCOUNT_ID, AI_GATEWAY_SLUG, GROQ_API_KEY } = env
+
+  if (!CF_ACCOUNT_ID || !AI_GATEWAY_SLUG || !GROQ_API_KEY) {
+    return new Response("AI not configured", { status: 503 })
+  }
 
   try {
     const stream = await streamVerdict(
@@ -23,9 +28,9 @@ export async function POST(req: Request): Promise<Response> {
         targetStore: deal.targetStore,
         competitors: deal.competitors,
       },
-      env.CF_ACCOUNT_ID,
-      env.AI_GATEWAY_SLUG,
-      env.GROQ_API_KEY
+      CF_ACCOUNT_ID,
+      AI_GATEWAY_SLUG,
+      GROQ_API_KEY
     )
 
     return new Response(stream, {

@@ -14,9 +14,7 @@ const PHISHING_BLOCKLIST = new Set([
   "rn.com", // rn looks like m
 ])
 
-export type UrlValidationResult =
-  | { ok: true; url: URL }
-  | { ok: false; error: string }
+export type UrlValidationResult = { ok: true; url: URL } | { ok: false; error: string }
 
 export function validateProductUrl(raw: string): UrlValidationResult {
   let url: URL

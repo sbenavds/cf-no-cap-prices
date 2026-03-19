@@ -1,9 +1,9 @@
 "use server"
 
-import { getCloudflareContext } from "@opennextjs/cloudflare"
-import { validateProductUrl } from "@/lib/validators/url"
 import { getCachedDeal } from "@/lib/cf/kv"
+import { validateProductUrl } from "@/lib/validators/url"
 import type { ActionResult } from "@/types/deal"
+import { getCloudflareContext } from "@opennextjs/cloudflare"
 
 export async function validateDeal(formData: FormData): Promise<ActionResult> {
   const raw = formData.get("url")

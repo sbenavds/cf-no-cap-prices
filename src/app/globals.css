@@ -162,8 +162,16 @@
   }
 
   /* Verdict stamp text colors — the emotional payoff */
-  .verdict-bargain { @apply text-[var(--verdict-bargain)]; }
-  .verdict-fair    { @apply text-[var(--verdict-fair)]; }
-  .verdict-pricey  { @apply text-[var(--verdict-pricey)]; }
-  .verdict-scam    { @apply text-[var(--verdict-scam)]; }
+  .verdict-bargain {
+    @apply text-[var(--verdict-bargain)];
+  }
+  .verdict-fair {
+    @apply text-[var(--verdict-fair)];
+  }
+  .verdict-pricey {
+    @apply text-[var(--verdict-pricey)];
+  }
+  .verdict-scam {
+    @apply text-[var(--verdict-scam)];
+  }
 }

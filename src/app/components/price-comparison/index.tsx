@@ -1,5 +1,5 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { CompetitorRow } from "@/components/price-comparison/competitor-row"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import type { DealResult } from "@/types/deal"
 
 interface PriceComparisonProps {
@@ -16,11 +16,7 @@ export function PriceComparison({ deal }: PriceComparisonProps) {
       <CardContent>
         <ol className="flex flex-col">
           {deal.competitors.map((c) => (
-            <CompetitorRow
-              key={c.store}
-              competitor={c}
-              targetPrice={deal.targetPrice}
-            />
+            <CompetitorRow key={c.store} competitor={c} targetPrice={deal.targetPrice} />
           ))}
         </ol>
       </CardContent>
