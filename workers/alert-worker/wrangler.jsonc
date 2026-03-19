@@ -1,0 +1,37 @@
+{
+  "$schema": "../../node_modules/wrangler/config-schema.json",
+  "name": "cf-nocap-alert-worker",
+  "main": "index.ts",
+  "compatibility_date": "2025-09-27",
+  "compatibility_flags": ["nodejs_compat"],
+  /**
+   * Runs every hour on the hour.
+   * Queries active alerts in D1, checks KV for current price, sends email if threshold met.
+   */
+  "triggers": {
+    "crons": ["0 * * * *"]
+  },
+  "kv_namespaces": [
+    {
+      "binding": "PRICES_KV",
+      "id": "6062cce504f14a4d9ffe6f745941d1e8"
+    }
+  ],
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "cf-nocap-prices",
+      "database_id": "c71e9b91-d831-45d0-9d67-500574dea746"
+    }
+  ],
+  "send_email": [
+    {
+      "name": "EMAIL",
+      "destination_address": ""
+    }
+  ]
+  /**
+   * Secrets — set via: wrangler secret put KEY --config workers/alert-worker/wrangler.jsonc
+   * - ALERT_FROM_EMAIL  (verified sender address in Cloudflare Email Workers)
+   */
+}
